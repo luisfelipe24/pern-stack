@@ -5,14 +5,14 @@ const { getAlltasks, gettasks, createtask, deletetask, updatetask, gettask } = r
 const router = Router();
 
 
-router.get('/libreta', getAlltasks);
+router.get('/contactos', getAlltasks);
 
-router.get('/tasks/:id', gettask);
+router.get('/contacto/:id', gettask);
 
-router.post('/tasks', createtask);
+router.post('/contactos', createtask);
 
-router.delete('/tasks/:id', deletetask);
+router.delete('/contacto/:id', deletetask);
 
-router.put('/tasks/:id', updatetask);
+router.put('/contacto/:id', updatetask);
 
 module.exports = router;

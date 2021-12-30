@@ -3,7 +3,7 @@ const pool = require('../postgres');
 const getAlltasks = async(req, res, next) => {
     try {
 
-        const alltasks = await pool.query('select * from libreta')
+        const alltasks = await pool.query('select * from contactos')
         res.json(alltasks.rows);
 
     } catch (error) {
@@ -16,10 +16,10 @@ const gettask = async(req, res, next) => {
 
     try {
         const { id } = req.params;
-        const result = await pool.query('SELECT * FROM libreta WHERE id = $1', [id]);
+        const result = await pool.query('SELECT * FROM contactos WHERE id = $1', [id]);
 
         if (result.rows.length === 0)
-            return res.status(404).json({ message: "Task not found" });
+            return res.status(404).json({ message: "Not found" });
 
         res.json(result.rows[0]);
     } catch (error) {
@@ -28,13 +28,13 @@ const gettask = async(req, res, next) => {
 };
 
 const createtask = async(req, res, next) => {
-    const { title, description } = req.body;
+    const { nombre, numero } = req.body;
 
 
     try {
-        const result = await pool.query('INSERT INTO libreta (title, description) VALUES($1, $2) RETURNING *', [
-            title,
-            description,
+        const result = await pool.query('INSERT INTO contactos (nombre, numero) VALUES($1, $2) RETURNING *', [
+            nombre,
+            numero,
         ]);
         res.json(result.rows[0]);
 
@@ -49,10 +49,10 @@ const deletetask = async(req, res) => {
     try {
         const { id } = req.params
 
-        const result = await pool.query("DELETE FROM libreta WHERE id = $1 RETURNING *", [id]);
+        const result = await pool.query("DELETE FROM contactos WHERE id = $1 RETURNING *", [id]);
 
         if (result.rowCount === 0)
-            return res.status(404).json({ message: "Task not found" });
+            return res.status(404).json({ message: "Not found" });
         return res.sendStatus(204);
     } catch (error) {
         next(error);
@@ -63,14 +63,14 @@ const deletetask = async(req, res) => {
 const updatetask = async(req, res) => {
     try {
         const { id } = req.params
-        const { title, description } = req.body;
+        const { nombre, numero } = req.body;
 
         const result = await pool.query(
-            "UPDATE libreta SET title = $1, description = $2 WHERE id = $3 RETURNING *", [title, description, id]
+            "UPDATE contactos SET nombre = $1, numero = $2 WHERE id = $3 RETURNING *", [nombre, numero, id]
         );
 
         if (result.rows.length === 0)
-            return res.status(404).json({ message: "Task not found" });
+            return res.status(404).json({ message: "Not found" });
 
         return res.json(result.rows[0]);
     } catch (error) {

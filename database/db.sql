@@ -5,3 +5,9 @@ CREATE TABLE libreta(
   title VARCHAR(255) UNIQUE,
   description VARCHAR(255)
 );
+
+CREATE TABLE contactos(
+  id SERIAL PRIMARY KEY,
+  nombre VARCHAR(255) UNIQUE,
+  numero VARCHAR(255)
+);
